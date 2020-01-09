@@ -24,7 +24,7 @@ public class Application extends SpringBootServletInitializer{
 		return application.sources(Application.class);
 	}
 	public static void main(String[] args) {
-		logger.info("《内置启动springboot》");
+		logger.info("《内置启动springboot111》");
 		SpringApplication.run(Application.class, args);
 	}
 	
