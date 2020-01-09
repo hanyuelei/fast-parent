@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity" xmlns:fw="">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>
+	<!-- <base th:href="@{/}"/> -->
+	<meta charset="utf-8">
+	<title>列表</title>
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="format-detection" content="telephone=no">
+	<link rel="stylesheet" th:href="@{/static/layui/css/layui.css}" media="all" />
+	<link rel="stylesheet" th:href="@{/static/css/public.css}" media="all" />
+</head>
+<body class="childrenBody timo-layout-page">
+<form class="layui-form">
+		<blockquote class="layui-elem-quote" style="height: 45px">
+			<div class="layui-row timo-card-screen put-row">
+                <div class="pull-left layui-form-pane timo-search-box">
+                <div class="layui-inline">
+					<input type="checkbox" name="selectAll" id="selectAll" lay-filter="selectAll" lay-skin="primary" title="全选">
+				</div>
+            	<div class="layui-input-inline">
+					<a class="layui-btn layui-btn-sm layui-btn-danger batchDelList" sec:authorize="hasAnyAuthority('/admin/system/fwImage/del')">批量删除</a>
+					<a class="layui-btn layui-btn-sm fwImageadd_btn" sec:authorize="hasAnyAuthority('/admin/system/fwImage/add')">上传新图片</a>
+				</div>
+		      <div class="layui-input-inline">
+		      		<label class="layui-form-label">类型：</label>
+		      		<div class="layui-input-block timo-search-status">
+		      		
+		      		 <select class="timo-search-select" name="imageType" id="imageType" fw:dict="IMAGE_STATUS"  mo-empty="全部"></select>
+			       </div>
+		      </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">备注</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="remark"  placeholder="备注" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                     <div class="layui-inline">
+                   		 <button type="button" class="layui-btn search_btn"><i class="layui-icon  layui-icon-search"></i></button>
+                    </div>
+                </div>
+            </div>
+	</blockquote>
+	<div> <fw:config key="img_prefix"></div>
+	<ul class="layer-photos-demo" id="Images"></ul>
+	<!--操作-->
+	<script type="text/html" id="fwImageBar">
+		<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+		<a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
+	</script>
+</form>
+<script type="text/javascript" th:src="@{/static/layui/layui.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/config.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/admin/fwImage/fwImageList.js}"></script>
+</body>
+</html>

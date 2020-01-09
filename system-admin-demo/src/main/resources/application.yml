@@ -1,0 +1,4 @@
+spring:
+  # 环境 loc|dev|pro
+  profiles:
+    active: loc

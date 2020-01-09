@@ -1,0 +1,11 @@
+package ${package}.${moduleName}.repository;
+
+import org.springframework.stereotype.Repository;
+
+import ${package}.${moduleName}.entity.${className}Entity;
+import com.framework.common.base.repository.BaseRepository;
+
+@Repository
+public interface  ${className}Repository extends BaseRepository< ${className}Entity, Long> {
+
+}

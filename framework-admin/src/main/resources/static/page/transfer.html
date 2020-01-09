@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>layui</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all" />
+  <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+</head>
+<body>
+            
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+  <legend>基础效果</legend>
+</fieldset>
+ 
+<div id="test1" class="demo-transfer"></div>
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+  <legend>定义标题及数据源</legend>
+</fieldset>
+ 
+<div id="test2" class="demo-transfer"></div>
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+  <legend>初始右侧数据集合</legend>
+</fieldset>
+ 
+<div id="test3" class="demo-transfer"></div>
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+  <legend>显示搜索框</legend>
+</fieldset>
+ 
+<div id="test4" class="demo-transfer"></div>
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+  <legend>数据格式转换</legend>
+</fieldset>
+ 
+<div id="test5" class="demo-transfer"></div>
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+  <legend>获取回调</legend>
+</fieldset>
+ 
+<div id="test6" class="demo-transfer"></div>
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+  <legend>实例调用</legend>
+</fieldset>
+<button id="transferBtn" class="layui-btn demo-transfer">获取右侧数据</button>
+<div id="test7" class="demo-transfer"></div>
+ 
+            
+          
+<script type="text/javascript" src="../layui/layui.js"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+layui.use(['transfer', 'layer'], function(){
+  var transfer = layui.transfer
+  ,layer = layui.layer
+  ,$ = layui.$;
+  
+  //模拟数据
+  var data1 = [
+    {"value": "1", "title": "选项一"}
+    ,{"value": "2", "title": "选项二"}
+    ,{"value": "3", "title": "选项三"}
+    ,{"value": "4", "title": "选项四", "disabled": true}
+    ,{"value": "5", "title": "选项五"}
+    ,{"value": "6", "title": "选项六"}
+    ,{"value": "7", "title": "选项七"}
+    ,{"value": "8", "title": "选项八"}
+    ,{"value": "9", "title": "选项九"}
+  ]
+  
+  ,data2 = [
+    {"value": "1", "title": "瓦罐汤"}
+    ,{"value": "2", "title": "油酥饼"}
+    ,{"value": "3", "title": "炸酱面"}
+    ,{"value": "4", "title": "串串香", "disabled": true}
+    ,{"value": "5", "title": "豆腐脑"}
+    ,{"value": "6", "title": "驴打滚"}
+    ,{"value": "7", "title": "北京烤鸭"}
+    ,{"value": "8", "title": "烤冷面"}
+    ,{"value": "9", "title": "毛血旺", "disabled": true}
+    ,{"value": "10", "title": "肉夹馍"}
+    ,{"value": "11", "title": "臊子面"}
+    ,{"value": "12", "title": "凉皮"}
+    ,{"value": "13", "title": "羊肉泡馍"}
+    ,{"value": "14", "title": "冰糖葫芦", "disabled": true}
+    ,{"value": "15", "title": "狼牙土豆"}
+  ]
+ 
+  //基础效果
+  transfer.render({
+    elem: '#test1'
+    ,data: data1
+  })
+ 
+  //定义标题及数据源
+  transfer.render({
+    elem: '#test2'
+    ,title: ['喜欢', '不喜欢']  //自定义标题
+    ,data: [
+      {"value": "瓦罐汤", "title": "瓦罐汤"}
+      ,{"value": "油酥饼", "title": "油酥饼"}
+      ,{"value": "炸酱面", "title": "炸酱面"}
+      ,{"value": "串串香", "title": "串串香", "disabled": true}
+      ,{"value": "豆腐脑", "title": "豆腐脑"}
+      ,{"value": "驴打滚", "title": "驴打滚"}
+      ,{"value": "北京烤鸭", "title": "北京烤鸭"}
+      ,{"value": "烤冷面", "title": "烤冷面"}
+    ]
+    //,width: 150 //定义宽度
+    ,height: 218 //定义高度
+  })
+ 
+  //初始选中数据
+  transfer.render({
+    elem: '#test3'
+    ,data: data2
+    ,value: ["1", "3", "5", "7", "9", "11"]
+  })
+ 
+  //显示搜索框
+  transfer.render({
+    elem: '#test4'
+    ,data: data2
+    ,showSearch: true
+  })
+ 
+  //数据格式转换
+  transfer.render({
+    elem: '#test5'
+    ,parseData: function(res){
+      return {
+        "value": res.status
+        ,"title": res.label
+        ,"disabled": res.check
+      }
+    }
+    ,data: [
+      {"status": "1", "label": "瓦罐汤", "check": false}
+      ,{"status": "2", "label": "油酥饼", "check": false}
+      ,{"status": "3", "label": "炸酱面", "check": false}
+      ,{"status": "4", "label": "串串香", "check": true}
+      ,{"status": "5", "label": "豆腐脑", "check": false}
+      ,{"status": "6", "label": "驴打滚", "check": false}
+    ]
+    ,value: ["1", "5"]
+  })
+ 
+  //获取回调
+  transfer.render({
+    elem: '#test6'
+    ,data: data2
+    ,onchange: function(obj){
+      layer.alert(JSON.stringify(obj)); 
+    }
+  })
+ 
+  //实例调用
+  var ins1 = transfer.render({
+    elem: '#test7'
+    ,data: data2
+  })
+  $("#transferBtn").on('click', function(){
+    layer.alert(JSON.stringify(ins1.getData())); 
+  });
+});
+</script>
+</body>
+</html>

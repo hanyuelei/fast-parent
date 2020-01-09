@@ -1,0 +1,74 @@
+package ${package}.${moduleName}.entity;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Set;
+import com.framework.common.base.entity.BaseEntity;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Data
+@EqualsAndHashCode(callSuper = true)
+@Entity
+@Table(name = "${tableName}")
+public class ${className}Entity extends BaseEntity {
+
+	private static final long serialVersionUID = 1L;
+	
+#foreach ($column in $columns)
+#if($column.columnName != "id" && $column.columnName != "base_create_time" && $column.columnName != "base_update_time" &&$column.columnName != "create_ip")
+    /**
+	 * $column.comments
+	 */
+    @Column(name="$column.columnName")
+	private $column.attrType $column.attrname;
+#end
+#end
+
+#foreach ($foreignkey in $foreignkeys)
+#if($foreignkey.havePri=="true")
+    /**
+	 * $foreignkey.comment
+	 */
+	@ManyToOne(targetEntity=${foreignkey.className}Entity.class,cascade=CascadeType.MERGE,fetch=FetchType.LAZY)
+	@JoinColumn(name="${foreignkey.clolumnName}")
+	private ${foreignkey.className}Entity ${foreignkey.classname};
+#else
+	
+	@JsonIgnore 
+	@JSONField(serialize = false)
+	@ManyToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+	@JoinTable(name="$foreignkey.tableName",joinColumns={@JoinColumn(name="$foreignkey.clolumnName")},inverseJoinColumns={@JoinColumn(name="$foreignkey.refClolumn")})
+	private  Set<$foreignkey.className> $foreignkey.classnameSet;
+#end
+#end
+	
+#foreach ($foreignkeyBy in $foreignkeysBy)
+#if($foreignkeyBy.havePri=="true")
+	/**
+	 * ${oneToMayMsg}
+	 */
+	@OneToMany(targetEntity=${foreignkeyBy.className}Entity.class,cascade={CascadeType.MERGE,CascadeType.PERSIST},fetch=FetchType.LAZY)
+	@JoinColumn(name="${foreignkeyBy.clolumnName}",updatable=false)
+	@OrderBy("id")
+	private Set<${foreignkeyBy.className}Entity>  ${foreignkeyBy.classname}Set;
+#else
+	
+	@JsonIgnore 
+	@JSONField(serialize = false)
+	@ManyToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+	@JoinTable(name="$foreignkeyBy.tableName",joinColumns={@JoinColumn(name="$foreignkeyBy.clolumnName")},inverseJoinColumns={@JoinColumn(name="$foreignkeyBy.refClolumn")})
+	private  Set<$foreignkeyBy.className> ${foreignkeyBy.classname}Set;
+#end
+#end
+
+	
+}

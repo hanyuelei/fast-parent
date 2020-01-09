@@ -1,0 +1,44 @@
+package ${package}.${moduleName}.service.impl;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import ${package}.${moduleName}.entity.${className}Entity;
+import ${package}.${moduleName}.repository.${className}Repository;
+import ${package}.${moduleName}.service.${className}Service;
+import com.framework.common.base.service.impl.BaseServiceImpl;
+import com.framework.common.util.R;
+@Service
+public class ${className}ServiceImpl extends BaseServiceImpl<${className}Entity, Long> implements ${className}Service {
+
+	private ${className}Repository ${classname}Repository;
+	public ${className}ServiceImpl(${className}Repository ${classname}Repository) {
+		super(${classname}Repository);
+		// TODO Auto-generated constructor stub
+		this.${classname}Repository=${classname}Repository;
+	}
+	
+	@Override
+	public R get${className}Page(Integer page, Integer limit, HttpServletRequest request) {
+		R r = R.ok();
+    	List<Object> objList = new ArrayList<Object>();
+        int paramPosition = 1;
+        String jpql="from ${className}Entity where 1=1 ";
+        jpql+="order by id desc";
+        Pageable pageable = PageRequest.of(page, limit, null);
+    	PageImpl pageData = (PageImpl)${classname}Repository.getPageByJpql(jpql, objList, pageable);
+    	r.setAny("count",pageData.getTotalElements());
+        r.setAny("data",pageData.getContent());
+        return r;
+	}
+	
+
+}

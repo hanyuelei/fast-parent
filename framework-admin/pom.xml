@@ -1,0 +1,94 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.hyl</groupId>
+    <artifactId>fast-parent</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <artifactId>framework-admin</artifactId>
+  
+  <properties>
+		<java.version>1.8</java.version>
+		<maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
+		<fastjson.version>1.2.58</fastjson.version>
+		<commons-codec.version>1.11</commons-codec.version>
+		<velocity.version>1.7</velocity.version>
+		<commons.lang.version>2.6</commons.lang.version>
+		<commons.io.version>2.5</commons.io.version>
+		<commons.configuration.version>1.10</commons.configuration.version>
+		<thymeleaf-extras-springsecurity4.version>3.0.2.RELEASE</thymeleaf-extras-springsecurity4.version>
+		<quartz.version>2.3.0</quartz.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<!-- 公共模块 -->
+		<dependency>
+				<groupId>system-framework-common</groupId>
+				<artifactId>system-framework-common</artifactId>
+				<version>0.0.1-SNAPSHOT</version>
+				<scope>provided</scope>
+		</dependency>
+		<!-- thymeleaf -->
+		 <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+        <!-- velocity渲染模板 -->
+        <dependency>
+			<artifactId>velocity</artifactId>
+			<groupId>org.apache.velocity</groupId>
+			<version>${velocity.version}</version>
+		</dependency>
+		<!-- security -->
+		<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+		<dependency>
+		    <groupId>org.thymeleaf.extras</groupId>
+		    <artifactId>thymeleaf-extras-springsecurity5</artifactId>
+		</dependency>
+     	<dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-taglibs</artifactId>
+        </dependency>
+		<dependency>
+		    <groupId>org.springframework.social</groupId>
+		    <artifactId>spring-social-web</artifactId>
+		    <version>1.1.3.RELEASE</version>
+		</dependency>
+
+		<!-- 定时器 -->
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>com.mchange</groupId>
+					<artifactId>c3p0</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.zaxxer</groupId>
+					<artifactId>HikariCP-java6</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+	</dependencies>
+
+	<build>
+	   <plugins>
+	      <plugin>
+	         <groupId>org.apache.maven.plugins</groupId>
+	         <artifactId>maven-compiler-plugin</artifactId>
+	         <configuration>
+	            <source>1.8</source> <!--指明源码用的Jdk版本-->
+	            <target>1.8</target> <!--指明打包后的Jdk版本-->
+	         </configuration>
+	      </plugin>
+	   </plugins>
+	</build>
+</project>

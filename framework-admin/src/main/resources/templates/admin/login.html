@@ -1,0 +1,113 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>
+	<meta charset="utf-8">
+	<title>用户登录</title>
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="format-detection" content="telephone=no">
+	<link rel="icon" th:href="@{/static/ico/favicon.ico}" >
+	<link rel="stylesheet"  th:href="@{/static/layui/css/layui.css}" media="all" />
+	<link rel="stylesheet"  th:href="@{/static/css/public.css}" media="all" />
+	<script type="text/javascript" th:src="@{/static/js/plugins/md5.min.js}"></script>
+
+</head>
+<body class="loginBody">
+	<form class="layui-form" th:action="@{/admin/login}" method="post" autocomplete="off">
+		<div class="login_face"><img  th:src="${default_avatar}" class="userAvatar"></div>
+		<div class="layui-form-item input-item">
+			<label for="userName">用户名</label>
+			<input type="text" placeholder="请输入用户名" autocomplete="off" id="username" name="username" class="layui-input" lay-verify="required">
+		</div>
+		<div class="layui-form-item input-item">
+			<label for="password">密码</label>
+			<input type="password" placeholder="请输入密码" autocomplete="off" id="password" name="password" class="layui-input" lay-verify="required">
+		</div>
+	 	<div class="layui-form-item input-item" id="imgCode">
+			<label for="code">验证码</label>
+			<input type="text" placeholder="请输入验证码" autocomplete="off" name="kaptcha" id="code" class="layui-input" lay-verify="required">
+			<img id="kaptcha" th:src="@{/admin/code/image}">
+<!-- 			<a href="javascript:void(0)" class="changeCaptcha">换一张</a> -->
+		</div> 
+		<span style="color: red" th:if="${param.error}">错误的用户名密码</span>
+		<span style="color: red" th:if="${param.logout}">注销成功</span>
+		<div class="layui-form-item">
+			<button class="layui-btn layui-block" lay-filter="login" lay-submit>登录</button>
+		</div>
+<!-- 		<div class="layui-form-item layui-row">
+			<a href="javascript:;" class="seraph icon-qq layui-col-xs4 layui-col-sm4 layui-col-md4 layui-col-lg4"></a>
+			<a href="javascript:;" class="seraph icon-wechat layui-col-xs4 layui-col-sm4 layui-col-md4 layui-col-lg4"></a>
+			<a href="javascript:;" class="seraph icon-sina layui-col-xs4 layui-col-sm4 layui-col-md4 layui-col-lg4"></a>
+		</div> -->
+	</form>
+	<script type="text/javascript" th:src="@{/static/layui/layui.js}"></script>
+	<script type="text/javascript" th:src="@{/static/js/login.js}"></script>
+	<script type="text/javascript" th:src="@{/static/js/cache.js}"></script> 
+	<script type="text/javascript" th:src="@{/static/js/config.js}"></script>
+
+<script th:inline="javascript">     
+layui.use(['form','layer','jquery'],function(){
+	var ctxPath=[[${#httpServletRequest.getContextPath()}]];
+    var form = layui.form,
+    layer = parent.layer === undefined ? layui.layer : top.layer,
+    $ = layui.jquery,
+    salt=layui.cache.salt;
+	//切换验证码
+	    $(".changeCaptcha").click(function(){
+	    	changeCode();
+    })
+	    $("#kaptcha").click(function(){
+	    	changeCode();
+    })
+    
+    function changeCode(){
+		      var url = ctxPath + "/admin/code/image";
+		      $("#kaptcha").attr("src", url);
+	}
+    //登录按钮
+    form.on("submit(login)",function(data){
+    	var pass = $("#password").val()
+//    	alert(md5(pass+salt));
+    	var ctxPath=[[${#httpServletRequest.getContextPath()}]];
+        $(this).text("登录中...").attr("disabled","disabled").addClass("layui-disabled");
+        $.post(ctxPath+"/admin/login",{
+	       	username : $("#username").val(),  
+	       	password : $("#password").val(),  
+	       	kaptcha : $("#code").val(),  
+        },function(res){
+       	  if(res.code=='0'){//登录成功
+              
+              window.top.location.href=ctxPath+"/admin/index";
+       	  
+       	  }else if(res.code == '100002'){//用户名密码错误
+       		 changeCode();
+       		 layer.msg(res.msg, {icon: 2});
+       		$('#password').val('');
+       	  }else if(res.code == '-1'){//验证码超时或者错误
+       		layer.msg(res.msg, {icon: 2});
+       		$('#code').val('');
+       		changeCode();
+       	  } else{
+       		 layer.msg('未知错误', {icon: 2});
+       		changeCode();
+       	  }
+      
+        }).error(function(error){
+         	  top.layer.msg("登录失败，请重试！");
+       	  //处理
+       	  });
+    	 $(this).text("登录").removeAttr("disabled").removeClass("layui-disabled");
+       return false;
+//        setTimeout(function(){
+//            window.location.href = "../../index.html";
+//        },1000);
+//        return false;
+    })
+});
+</script>
+</body>
+</html>

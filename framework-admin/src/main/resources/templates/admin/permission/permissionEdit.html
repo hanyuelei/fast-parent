@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>
+	<meta charset="utf-8">
+	<title>权限修改</title>
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="format-detection" content="telephone=no">
+	<link rel="stylesheet" th:href="@{/static/layui/css/layui.css}" media="all" />
+	<link rel="stylesheet" th:href="@{/static/css/public.css}" media="all" />
+</head>
+<body class="childrenBody">
+<form class="layui-form timo-compile" style="width:80%;">
+	<input class="layui-hide" name="pid" id="pid" th:value="${pre.id}"/>
+	<input class="layui-hide"  id="parentIdInput" th:value="${pre.parentId}"/>
+	
+	 <div class="layui-form-item" th:if="${pre.type} == 1">
+         <label class="layui-form-label">父权限名称</label>
+         <div class="layui-input-block">
+             <select name="parentId" id="parentMenuId"  class="layui-input">
+                 <option th:each="p,pStat:${preList}" th:value="${p.id}"  th:text="${p.name}" th:selected="${pre.parentId} == ${p.id} ? true :false"></option>
+             </select>
+         </div>
+     </div>
+     <input type="hidden" th:value="${pre.type}" name="type" id="menuType"/> 
+	<div class="layui-form-item layui-row layui-col-xs12">
+		<label class="layui-form-label timo-compile">权限名称</label>
+		<div class="layui-input-block">
+			<input type="text" class="layui-input" name="name" id="name" autocomplete="off" lay-verify="required" placeholder="请输入权限名称" th:value="${pre.name}">
+		
+		</div>
+	</div>
+	<div class="layui-form-item layui-row layui-col-xs12" id="preUrl">
+		<label class="layui-form-label">权限URL2</label>
+		<div class="layui-input-block">
+			<input type="text" class="layui-input preUrl" id="url" autocomplete="off" name="url" lay-verify="required" placeholder="请输入权限URL" th:value="${pre.url}">
+		</div>
+	</div>
+     <div class="layui-form-item">
+         <label class="layui-form-label">菜单图标</label>
+         <div class="layui-input-block">
+             <input type="hidden" class="layui-input" name="icon"  id="iconValue"  placeholder="请选择菜单图标" th:value="${pre.icon}">
+               <div class="layui-input-inline" style="width: 100px;">
+                  <i class="layui-icon" id="realIcon" style="font-size: 50px"
+                      th:styleappend="(${pre.icon} == null or ${pre.icon} == '') ? 'display:none' : 'display:block'">
+                      <span th:if="${pre.icon} != null and ${pre.icon} != ''" th:text="${pre.icon}"></span>
+                  </i>
+              </div>
+             <div class="layui-input-inline" style="width: 100px;">
+                 <a class="layui-btn layui-btn-danger " id="selectIcon">选择图标</a>
+             </div>
+         </div>
+     </div>
+     <div class="layui-form-item layui-row layui-col-xs12">
+		<label class="layui-form-label timo-compile">排序</label>
+		<div class="layui-input-block">
+			<input type="text" class="layui-input sort" id="sort" name="sort" autocomplete="off"  lay-verify="required|number" placeholder="请输入排序值" th:value="${pre.sort}">
+		</div>
+	</div>
+	<div class="layui-form-item layui-row layui-col-xs12">
+		<div class="layui-input-block">
+			<button class="layui-btn layui-btn-sm" lay-submit="" lay-filter="editPermissionSave">确认修改</button>
+			<button type="reset" class="layui-btn layui-btn-sm layui-btn-primary">放弃修改</button>
+		</div>
+	</div>
+</form>
+<script type="text/javascript" th:src="@{/static/layui/layui.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/config.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/admin/permission/permissionEdit.js}"></script>
+<script type="text/javascript">
+layui.use(['form','layer'],function(){
+    var form = layui.form
+        layer = layui.layer,
+        $ = layui.jquery;
+   　var type=$('input[name=type]').val();
+    if(type!=0){
+    	　$('input[name=url]').attr( "lay-verify" ,'required');　　
+    }
+});
+</script>
+</body>
+</html>

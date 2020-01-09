@@ -1,0 +1,14 @@
+package ${package}.${moduleName}.repository.impl;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import ${package}.${moduleName}.dao.${className}Dao;
+import com.framework.common.base.repository.BaseRepository;
+
+public class ${className}RepositoryImpl  implements ${className}Dao {
+
+    @PersistenceContext
+    private EntityManager entityManager;
+}
+
+

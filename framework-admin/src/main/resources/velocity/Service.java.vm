@@ -1,0 +1,25 @@
+package ${package}.${moduleName}.service;
+
+import javax.servlet.http.HttpServletRequest;
+
+import ${package}.${moduleName}.entity.${className}Entity;
+import com.framework.common.base.service.BaseService;
+import com.framework.common.util.R;
+
+public interface ${className}Service extends BaseService<${className}Entity, Long> {
+
+	/**
+	 * 
+	* @Title: get${className}Page  
+	* @Description: TODO(分页列表)  
+	* @param @param page  页面
+	* @param @param limit 每页条数
+	* @param @param request
+	* @param @return    设定文件  
+	* @return R    返回类型  
+	* @throws
+	 */
+	R get${className}Page(Integer page,Integer limit,HttpServletRequest request);
+}
+
+
